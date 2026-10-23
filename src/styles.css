@@ -1,0 +1,671 @@
+:root {
+  --papier: #f2f4f3;
+  --flaeche: #ffffff;
+  --tinte: #16323d;
+  --tinte-weich: #4a5d63;
+  --rand: #6f8288;
+  --signal: #ffd400;
+  --signal-tief: #e6bf00;
+  --fehler: #a4231c;
+  --fehler-grund: #fbeceb;
+  --hinweis-grund: #fff6c7;
+  --fokus: #0b5cad;
+
+  --schrift: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --mass: 40rem;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--schrift);
+  font-size: 100%;
+  line-height: 1.55;
+  color: var(--tinte);
+  background: var(--papier);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+}
+
+p,
+li {
+  max-width: var(--mass);
+}
+
+a {
+  color: var(--tinte);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 0.16em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--fokus);
+  outline-offset: 3px;
+}
+
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--signal);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.skip:focus {
+  top: 0.5rem;
+}
+
+/* Kopf und Fuß */
+
+.kopf {
+  background: var(--tinte);
+  color: #fff;
+  padding: 0.75rem 1rem;
+}
+
+.marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  text-decoration: none;
+  max-width: 46rem;
+}
+
+.kopf .marke {
+  margin: 0 auto;
+}
+
+.marke svg {
+  color: #2d5463;
+}
+
+.marke:focus-visible {
+  outline-color: var(--signal);
+}
+
+.fuss {
+  border-top: 1px solid var(--rand);
+  padding: 1.5rem 1rem 2rem;
+  font-size: 0.9375rem;
+  color: var(--tinte-weich);
+}
+
+.fuss p {
+  max-width: 46rem;
+  margin: 0 auto 0.5rem;
+}
+
+.fuss a {
+  color: var(--tinte);
+}
+
+.seite {
+  padding-top: 2rem;
+}
+
+.einleitung {
+  font-size: 1.1875rem;
+  color: var(--tinte-weich);
+  margin-bottom: 2rem;
+}
+
+/* Start: Lebenslagen */
+
+.start-titel {
+  font-size: clamp(2.5rem, 11vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  max-width: 12ch;
+  margin-top: 1rem;
+}
+
+.lagen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 3px solid var(--tinte);
+}
+
+.lage {
+  border-bottom: 1px solid var(--rand);
+  max-width: none;
+}
+
+.lage a,
+.lage > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.15rem;
+  padding: 1.1rem 0.25rem;
+  text-decoration: none;
+}
+
+.lage a {
+  position: relative;
+  padding-right: 3rem;
+}
+
+.lage a::after {
+  content: "";
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-top: -0.875rem;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: inset 0 0 0 2px var(--tinte);
+}
+
+.lage a:hover {
+  background: var(--flaeche);
+}
+
+.lage-titel {
+  font-size: 1.375rem;
+  font-weight: 700;
+}
+
+.lage-text {
+  color: var(--tinte-weich);
+}
+
+.lage a .lage-text {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.lage-bald .lage-titel {
+  color: var(--tinte-weich);
+}
+
+/* Linienplan */
+
+.linie {
+  margin: 1.5rem 0 2rem;
+}
+
+.linie ol {
+  --spur: 6px;
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.station {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.station::before {
+  content: "";
+  position: absolute;
+  top: calc(0.875rem - var(--spur) / 2);
+  left: 0;
+  right: 0;
+  height: var(--spur);
+  background: var(--rand);
+}
+
+.station:first-child::before {
+  left: 50%;
+}
+
+.station:last-child::before {
+  right: 50%;
+}
+
+.station-erledigt::before,
+.station-aktuell::before {
+  background: var(--tinte);
+}
+
+.station-aktuell::before {
+  right: 50%;
+}
+
+.station-aktuell:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(0.875rem - var(--spur) / 2);
+  left: 50%;
+  right: 0;
+  height: var(--spur);
+  background: var(--rand);
+}
+
+.station > button,
+.station > span {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+.station > button {
+  cursor: pointer;
+}
+
+.station > button:hover .station-name {
+  text-decoration: underline;
+}
+
+.punkt {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--flaeche);
+  border: 4px solid var(--rand);
+}
+
+.station-erledigt .punkt {
+  background: var(--tinte);
+  border-color: var(--tinte);
+}
+
+.station-aktuell .punkt {
+  background: var(--signal);
+  border-color: var(--tinte);
+  transform: scale(1.2);
+}
+
+.station-name {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  padding: 0 0.15rem;
+  overflow-wrap: anywhere;
+}
+
+.station-aktuell .station-name {
+  font-weight: 700;
+}
+
+.linie-stand {
+  display: none;
+  margin: 0.75rem 0 0;
+  font-weight: 700;
+}
+
+@media (max-width: 34rem) {
+  /* Auf schmalen Bildschirmen nur Punkte zeigen, Namen bleiben für Screenreader lesbar. */
+  .station-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .linie-stand {
+    display: block;
+  }
+}
+
+/* Formular */
+
+.schritt {
+  background: var(--flaeche);
+  border-top: 6px solid var(--tinte);
+  padding: 1.5rem 1.25rem 1.75rem;
+}
+
+.schritt > h2:focus {
+  outline: none;
+}
+
+.schritt-text {
+  color: var(--tinte-weich);
+  margin-top: -0.25rem;
+}
+
+form {
+  margin-top: 1.5rem;
+}
+
+.feld {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.feld > label,
+.feld > legend {
+  display: block;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  margin-bottom: 0.3rem;
+  padding: 0;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--tinte-weich);
+}
+
+.hilfe {
+  margin: 0 0 0.4rem;
+  color: var(--tinte-weich);
+  font-size: 0.9375rem;
+}
+
+input[type="text"],
+select {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+  font: inherit;
+  font-size: 1.0625rem;
+  color: var(--tinte);
+  background: var(--flaeche);
+  border: 2px solid var(--rand);
+  border-radius: 4px;
+  padding: 0.6rem 0.7rem;
+  min-height: 2.875rem;
+}
+
+input.kurz {
+  max-width: 7rem;
+}
+
+input.mittel {
+  max-width: 10rem;
+}
+
+input[type="text"]:focus-visible,
+select:focus-visible {
+  border-color: var(--tinte);
+  outline-offset: 0;
+}
+
+.feld-fehler {
+  border-left: 4px solid var(--fehler);
+  padding-left: 0.85rem;
+}
+
+.feld-fehler input,
+.feld-fehler select {
+  border-color: var(--fehler);
+}
+
+.fehler {
+  color: var(--fehler);
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+}
+
+.frist {
+  background: var(--hinweis-grund);
+  padding: 0.4rem 0.6rem;
+  margin: 0 0 0.4rem;
+}
+
+.radios {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.radio {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  border: 2px solid var(--rand);
+  border-radius: 4px;
+  max-width: 28rem;
+  cursor: pointer;
+}
+
+.radio:has(input:checked) {
+  border-color: var(--tinte);
+  background: var(--hinweis-grund);
+}
+
+.radio input {
+  width: 1.375rem;
+  height: 1.375rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--tinte);
+  flex: none;
+}
+
+.fehlerliste {
+  border: 3px solid var(--fehler);
+  background: var(--fehler-grund);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.fehlerliste:focus {
+  outline: 3px solid var(--fokus);
+  outline-offset: 3px;
+}
+
+.fehlerliste ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.fehlerliste a {
+  color: var(--fehler);
+  font-weight: 700;
+}
+
+/* Knöpfe */
+
+.aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.knopf,
+.knopf-zweit,
+.knopf-leise {
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  min-height: 3rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.knopf {
+  background: var(--signal);
+  color: var(--tinte);
+  border: 2px solid var(--tinte);
+  box-shadow: 0 3px 0 var(--tinte);
+}
+
+.knopf:hover {
+  background: var(--signal-tief);
+}
+
+.knopf:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--tinte);
+}
+
+.knopf:disabled {
+  cursor: progress;
+}
+
+.knopf-zweit {
+  background: var(--flaeche);
+  color: var(--tinte);
+  border: 2px solid var(--tinte);
+}
+
+.knopf-leise {
+  background: none;
+  border: 2px solid transparent;
+  color: var(--fehler);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Prüfen und Übergabe */
+
+.pruef-block {
+  margin-top: 1.5rem;
+}
+
+.pruef-block dl {
+  margin: 0;
+}
+
+.pruef-block dl > div {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) 2fr;
+  gap: 0.25rem 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #d5dcdb;
+}
+
+.pruef-block dt {
+  color: var(--tinte-weich);
+}
+
+.pruef-block dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 30rem) {
+  .pruef-block dl > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pdf-status {
+  min-height: 1.5em;
+  font-weight: 700;
+}
+
+.uebergabe {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 3px solid var(--tinte);
+}
+
+.weiter {
+  padding-left: 1.4rem;
+}
+
+.weiter > li {
+  margin-bottom: 1rem;
+}
+
+.haken {
+  padding-left: 1.2rem;
+  margin: 0.4rem 0 0;
+}
+
+.hinweis {
+  background: var(--hinweis-grund);
+  border-left: 4px solid var(--signal-tief);
+  padding: 0.75rem 1rem;
+}
+
+.zurueck {
+  margin: 0 0 1rem;
+}
+
+.loeschen {
+  margin-top: 2.5rem;
+  color: var(--tinte-weich);
+}
+
+.loeschen p {
+  margin-bottom: 0.25rem;
+}
+
+.text h2 {
+  margin-top: 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .knopf:active {
+    transform: none;
+  }
+}
