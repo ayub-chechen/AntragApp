@@ -1,0 +1,12 @@
+{
+  "name": "Antragshilfe Berlin",
+  "short_name": "Antragshilfe",
+  "description": "Berliner Anträge Schritt für Schritt ausfüllen und als PDF speichern.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f4f3",
+  "theme_color": "#16323d",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

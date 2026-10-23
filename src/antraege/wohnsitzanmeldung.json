@@ -1,0 +1,113 @@
+{
+  "id": "wohnsitzanmeldung",
+  "titel": "Anmeldung einer Wohnung",
+  "kurz": "Nach dem Umzug innerhalb von zwei Wochen beim Bürgeramt anmelden.",
+  "lebenslage": "umzug",
+  "leistungs_id": "120686",
+  "quelle_url": "https://service.berlin.de/dienstleistung/120686/",
+  "online_url": "https://service.berlin.de/dienstleistung/120686/",
+  "stand": "2026-10-23",
+  "stand_geprueft": false,
+  "zustaendig": "Bürgeramt (jedes Berliner Bürgeramt)",
+  "gebuehr": "gebührenfrei",
+  "frist": "innerhalb von zwei Wochen nach dem Einzug (§ 17 Bundesmeldegesetz)",
+  "unterlagen": [
+    "Personalausweis, Reisepass oder anderes Ausweisdokument",
+    "Wohnungsgeberbestätigung (vom Vermieter oder Eigentümer unterschrieben)",
+    "Ausgefülltes und unterschriebenes Anmeldeformular",
+    "Bei Familienangehörigen: deren Ausweise und ggf. Geburts- oder Heiratsurkunde"
+  ],
+  "schritte": [
+    { "id": "einzug", "titel": "Neue Wohnung", "beschreibung": "Wohin sind Sie gezogen und wann?" },
+    { "id": "person", "titel": "Ihre Person", "beschreibung": "Angaben wie in Ihrem Ausweis." },
+    { "id": "bisher", "titel": "Bisherige Wohnung", "beschreibung": "Wo haben Sie vorher gewohnt?" },
+    { "id": "ausweis", "titel": "Ausweis", "beschreibung": "Diese Angaben können Sie auch beim Termin ergänzen lassen." },
+    { "id": "pruefen", "titel": "Prüfen und speichern" }
+  ],
+  "felder": [
+    { "name": "einzugsdatum", "label": "Einzugsdatum", "typ": "datum", "pflicht": true, "schritt": "einzug", "validierung": "datum", "hilfetext": "Der Tag, an dem Sie eingezogen sind. Format: TT.MM.JJJJ", "pdf_feld": null },
+    { "name": "neu_strasse", "label": "Straße", "typ": "text", "pflicht": true, "schritt": "einzug", "autocomplete": "address-line1", "pdf_feld": null },
+    { "name": "neu_hausnummer", "label": "Hausnummer", "typ": "text", "pflicht": true, "schritt": "einzug", "pdf_feld": null },
+    { "name": "neu_zusatz", "label": "Adresszusatz", "typ": "text", "pflicht": false, "schritt": "einzug", "hilfetext": "Zum Beispiel Vorderhaus, 3. OG links oder c/o-Name.", "autocomplete": "address-line2", "pdf_feld": null },
+    { "name": "neu_plz", "label": "Postleitzahl", "typ": "plz", "pflicht": true, "schritt": "einzug", "validierung": "plz_berlin", "autocomplete": "postal-code", "pdf_feld": null },
+    {
+      "name": "wohnungsstatus", "label": "Die neue Wohnung ist", "typ": "radio", "pflicht": true, "schritt": "einzug", "pdf_feld": null,
+      "hilfetext": "Hauptwohnung ist die Wohnung, in der Sie überwiegend leben.",
+      "optionen": [
+        { "wert": "alleinig", "label": "meine einzige Wohnung" },
+        { "wert": "haupt", "label": "meine Hauptwohnung (ich habe noch eine weitere)" },
+        { "wert": "neben", "label": "meine Nebenwohnung" }
+      ]
+    },
+
+    { "name": "familienname", "label": "Familienname", "typ": "text", "pflicht": true, "schritt": "person", "autocomplete": "family-name", "profil": "person.familienname", "pdf_feld": null },
+    { "name": "geburtsname", "label": "Geburtsname", "typ": "text", "pflicht": false, "schritt": "person", "hilfetext": "Nur ausfüllen, wenn er sich vom Familiennamen unterscheidet.", "profil": "person.geburtsname", "pdf_feld": null },
+    { "name": "vornamen", "label": "Vornamen", "typ": "text", "pflicht": true, "schritt": "person", "hilfetext": "Alle Vornamen wie im Ausweis.", "autocomplete": "given-name", "profil": "person.vornamen", "pdf_feld": null },
+    { "name": "doktorgrad", "label": "Doktorgrad", "typ": "text", "pflicht": false, "schritt": "person", "autocomplete": "honorific-prefix", "profil": "person.doktorgrad", "pdf_feld": null },
+    {
+      "name": "geschlecht", "label": "Geschlecht", "typ": "auswahl", "pflicht": true, "schritt": "person", "profil": "person.geschlecht", "pdf_feld": null,
+      "hilfetext": "Wie im Geburtenregister eingetragen.",
+      "optionen": [
+        { "wert": "weiblich", "label": "weiblich" },
+        { "wert": "maennlich", "label": "männlich" },
+        { "wert": "divers", "label": "divers" },
+        { "wert": "ohne", "label": "ohne Angabe" }
+      ]
+    },
+    { "name": "geburtsdatum", "label": "Geburtsdatum", "typ": "datum", "pflicht": true, "schritt": "person", "validierung": "datum_vergangenheit", "hilfetext": "Format: TT.MM.JJJJ", "autocomplete": "bday", "profil": "person.geburtsdatum", "pdf_feld": null },
+    { "name": "geburtsort", "label": "Geburtsort und Land", "typ": "text", "pflicht": true, "schritt": "person", "hilfetext": "Zum Beispiel Hamburg, Deutschland.", "profil": "person.geburtsort", "pdf_feld": null },
+    { "name": "staatsangehoerigkeit", "label": "Staatsangehörigkeit", "typ": "text", "pflicht": true, "schritt": "person", "hilfetext": "Bei mehreren bitte alle nennen, getrennt durch Komma.", "profil": "person.staatsangehoerigkeit", "pdf_feld": null },
+    {
+      "name": "familienstand", "label": "Familienstand", "typ": "auswahl", "pflicht": true, "schritt": "person", "profil": "person.familienstand", "pdf_feld": null,
+      "optionen": [
+        { "wert": "ledig", "label": "ledig" },
+        { "wert": "verheiratet", "label": "verheiratet" },
+        { "wert": "lebenspartnerschaft", "label": "eingetragene Lebenspartnerschaft" },
+        { "wert": "geschieden", "label": "geschieden" },
+        { "wert": "verwitwet", "label": "verwitwet" }
+      ]
+    },
+    {
+      "name": "religion", "label": "Zugehörigkeit zu einer Religionsgesellschaft", "typ": "auswahl", "pflicht": true, "schritt": "person", "pdf_feld": null,
+      "hilfetext": "Gefragt ist nur die Zugehörigkeit zu einer öffentlich-rechtlichen Religionsgesellschaft. Die Meldebehörde braucht die Angabe für die Kirchensteuer.",
+      "optionen": [
+        { "wert": "keine", "label": "keine öffentlich-rechtliche Religionsgesellschaft" },
+        { "wert": "ev", "label": "evangelisch" },
+        { "wert": "rk", "label": "römisch-katholisch" },
+        { "wert": "sonstige", "label": "andere öffentlich-rechtliche Religionsgesellschaft" }
+      ]
+    },
+
+    {
+      "name": "bisher_ausland", "label": "Wo war Ihre bisherige Wohnung?", "typ": "radio", "pflicht": true, "schritt": "bisher", "pdf_feld": null,
+      "optionen": [
+        { "wert": "nein", "label": "in Deutschland" },
+        { "wert": "ja", "label": "im Ausland" }
+      ]
+    },
+    { "name": "bisher_strasse", "label": "Straße und Hausnummer", "typ": "text", "pflicht": true, "schritt": "bisher", "pdf_feld": null },
+    { "name": "bisher_plz", "label": "Postleitzahl", "typ": "plz", "pflicht": true, "schritt": "bisher", "validierung": "plz", "pdf_feld": null, "wenn": { "feld": "bisher_ausland", "wert": "nein" } },
+    { "name": "bisher_ort", "label": "Ort", "typ": "text", "pflicht": true, "schritt": "bisher", "pdf_feld": null },
+    { "name": "bisher_staat", "label": "Staat", "typ": "text", "pflicht": true, "schritt": "bisher", "pdf_feld": null, "wenn": { "feld": "bisher_ausland", "wert": "ja" } },
+    {
+      "name": "bisher_beibehalten", "label": "Behalten Sie die bisherige Wohnung?", "typ": "radio", "pflicht": true, "schritt": "bisher", "pdf_feld": null,
+      "optionen": [
+        { "wert": "nein", "label": "nein" },
+        { "wert": "ja", "label": "ja" }
+      ]
+    },
+
+    {
+      "name": "ausweis_art", "label": "Art des Dokuments", "typ": "auswahl", "pflicht": false, "schritt": "ausweis", "pdf_feld": null,
+      "optionen": [
+        { "wert": "personalausweis", "label": "Personalausweis" },
+        { "wert": "reisepass", "label": "Reisepass" },
+        { "wert": "anderes", "label": "anderes Dokument" }
+      ]
+    },
+    { "name": "ausweis_nummer", "label": "Seriennummer", "typ": "text", "pflicht": false, "schritt": "ausweis", "hilfetext": "Steht oben rechts auf dem Ausweis.", "pdf_feld": null },
+    { "name": "ausweis_behoerde", "label": "Ausstellende Behörde", "typ": "text", "pflicht": false, "schritt": "ausweis", "pdf_feld": null },
+    { "name": "ausweis_datum", "label": "Ausgestellt am", "typ": "datum", "pflicht": false, "schritt": "ausweis", "validierung": "datum_vergangenheit", "hilfetext": "Format: TT.MM.JJJJ", "pdf_feld": null },
+    { "name": "ausweis_gueltig", "label": "Gültig bis", "typ": "datum", "pflicht": false, "schritt": "ausweis", "validierung": "datum_zukunft", "hilfetext": "Format: TT.MM.JJJJ", "pdf_feld": null }
+  ]
+}
