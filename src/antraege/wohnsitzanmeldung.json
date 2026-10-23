@@ -25,7 +25,7 @@
     { "id": "pruefen", "titel": "Prüfen und speichern" }
   ],
   "felder": [
-    { "name": "einzugsdatum", "label": "Einzugsdatum", "typ": "datum", "pflicht": true, "schritt": "einzug", "validierung": "datum", "hilfetext": "Der Tag, an dem Sie eingezogen sind. Format: TT.MM.JJJJ", "pdf_feld": null },
+    { "name": "einzugsdatum", "label": "Einzugsdatum", "typ": "datum", "pflicht": true, "schritt": "einzug", "validierung": "datum", "hilfetext": "Der Tag, an dem Sie eingezogen sind. Zum Beispiel 23.10.2026 oder einfach 231026.", "pdf_feld": null },
     { "name": "neu_strasse", "label": "Straße", "typ": "text", "pflicht": true, "schritt": "einzug", "autocomplete": "address-line1", "pdf_feld": null },
     { "name": "neu_hausnummer", "label": "Hausnummer", "typ": "text", "pflicht": true, "schritt": "einzug", "pdf_feld": null },
     { "name": "neu_zusatz", "label": "Adresszusatz", "typ": "text", "pflicht": false, "schritt": "einzug", "hilfetext": "Zum Beispiel Vorderhaus, 3. OG links oder c/o-Name.", "autocomplete": "address-line2", "pdf_feld": null },

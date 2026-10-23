@@ -34,7 +34,9 @@ test("Wohnsitzanmeldung ausfüllen und PDF herunterladen", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anmeldung einer Wohnung");
 
   // Erfundene Testperson
-  await page.getByLabel("Einzugsdatum").fill("01.10.2026");
+  await page.getByLabel("Einzugsdatum").fill("011026");
+  await page.getByLabel("Einzugsdatum").blur();
+  await expect(page.getByLabel("Einzugsdatum")).toHaveValue("01.10.2026");
   await page.getByLabel("Straße", { exact: true }).fill("Musterstraße");
   await page.getByLabel("Hausnummer").fill("12a");
   await page.getByLabel("Postleitzahl").fill("10115");
@@ -45,7 +47,7 @@ test("Wohnsitzanmeldung ausfüllen und PDF herunterladen", async ({ page }) => {
   await page.getByLabel("Familienname").fill("Müller-Łukasiewicz");
   await page.getByLabel("Vornamen").fill("Jörg");
   await page.getByLabel("Geschlecht").selectOption("maennlich");
-  await page.getByLabel("Geburtsdatum").fill("24.12.1990");
+  await page.getByLabel("Geburtsdatum").fill("24121990");
   await page.getByLabel("Geburtsort und Land").fill("Köln, Deutschland");
   await page.getByLabel("Staatsangehörigkeit").fill("deutsch");
   await page.getByLabel("Familienstand").selectOption("ledig");
@@ -65,6 +67,7 @@ test("Wohnsitzanmeldung ausfüllen und PDF herunterladen", async ({ page }) => {
 
   await expect(page.getByRole("heading", { level: 2, name: "Prüfen und speichern" })).toBeVisible();
   await expect(page.getByText("Müller-Łukasiewicz")).toBeVisible();
+  await expect(page.getByText("24.12.1990")).toBeVisible();
   await keineA11yFehler(page);
 
   const download = page.waitForEvent("download");

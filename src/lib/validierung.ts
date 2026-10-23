@@ -12,6 +12,37 @@ export function parseDatum(text: string): Date | null {
   return d;
 }
 
+/**
+ * Bringt eine Datumseingabe in die Form TT.MM.JJJJ, z. B. „231026“, „23102026“,
+ * „23.10.26“ oder „23-10-2026“ zu „23.10.2026“. Unklare Eingaben bleiben unverändert,
+ * damit die Prüfung eine Fehlermeldung zeigen kann.
+ */
+export function normalisiereDatum(text: string, nurVergangenheit = false): string {
+  const t = text.trim();
+  let tag: string, monat: string, jahr: string;
+  const getrennt = /^(\d{1,2})[.\-/ ](\d{1,2})[.\-/ ](\d{2}|\d{4})$/.exec(t);
+  if (getrennt) [, tag, monat, jahr] = getrennt;
+  else if (/^\d{6}$/.test(t) || /^\d{8}$/.test(t)) [tag, monat, jahr] = [t.slice(0, 2), t.slice(2, 4), t.slice(4)];
+  else return text;
+
+  if (jahr.length === 2) {
+    const jetzt = heute();
+    let voll = 2000 + Number(jahr);
+    // Zweistellige Jahre: 20xx, außer das Datum läge zu weit in der Zukunft (z. B. Geburtsdatum „150885“).
+    const kandidat = new Date(voll, Number(monat) - 1, Number(tag));
+    if ((nurVergangenheit && kandidat > jetzt) || voll > jetzt.getFullYear() + 20) voll -= 100;
+    jahr = String(voll);
+  }
+  const ergebnis = `${tag.padStart(2, "0")}.${monat.padStart(2, "0")}.${jahr}`;
+  return parseDatum(ergebnis) ? ergebnis : text;
+}
+
+/** Vereinheitlicht eine Eingabe je nach Feldtyp, bevor sie geprüft wird. */
+export function normalisiere(feld: Feld, wert: string): string {
+  if (feld.typ !== "datum" || !wert) return wert;
+  return normalisiereDatum(wert, feld.validierung === "datum_vergangenheit");
+}
+
 function heute(): Date {
   const d = new Date();
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());

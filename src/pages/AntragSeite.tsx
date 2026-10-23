@@ -5,7 +5,7 @@ import { Linie } from "../components/Linie";
 import { Uebergabe } from "../components/Uebergabe";
 import { zusammenfassung } from "../lib/anzeige";
 import { link } from "../lib/router";
-import { fristHinweis, istSichtbar, pruefeFeld, pruefeSchritt } from "../lib/validierung";
+import { fristHinweis, istSichtbar, normalisiere, pruefeFeld, pruefeSchritt } from "../lib/validierung";
 
 export function AntragSeite({ antrag }: { antrag: Antrag }) {
   // Angaben nur im Arbeitsspeicher, siehe docs/datenschutz-check.md
@@ -49,7 +49,9 @@ export function AntragSeite({ antrag }: { antrag: Antrag }) {
   const pruefeBeimVerlassen = (name: string) => {
     const feld = antrag.felder.find((f) => f.name === name)!;
     if (!werte[name]) return;
-    const meldung = pruefeFeld(feld, werte[name]);
+    const wert = normalisiere(feld, werte[name]);
+    if (wert !== werte[name]) setWerte((w) => ({ ...w, [name]: wert }));
+    const meldung = pruefeFeld(feld, wert);
     setFehler((f) => {
       const neu = { ...f };
       if (meldung) neu[name] = meldung;
@@ -60,7 +62,10 @@ export function AntragSeite({ antrag }: { antrag: Antrag }) {
 
   const weiter = (e: React.FormEvent) => {
     e.preventDefault();
-    const neu = pruefeSchritt(felder, werte);
+    const bereinigt = { ...werte };
+    for (const f of felder) if (bereinigt[f.name]) bereinigt[f.name] = normalisiere(f, bereinigt[f.name]);
+    setWerte(bereinigt);
+    const neu = pruefeSchritt(felder, bereinigt);
     setFehler(neu);
     if (Object.keys(neu).length > 0) {
       fehlerVersuch.current += 1;

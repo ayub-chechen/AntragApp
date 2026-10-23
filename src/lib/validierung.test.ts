@@ -6,6 +6,7 @@ import {
   istPlz,
   istSteuerId,
   istTelefon,
+  normalisiereDatum,
   parseDatum,
   pruefeFeld,
   pruefeSchritt,
@@ -28,6 +29,24 @@ describe("Formate", () => {
     expect(parseDatum("29.02.2025")).toBeNull();
     expect(parseDatum("2024-02-01")).toBeNull();
     expect(parseDatum("1.2.2024")).toBeNull();
+  });
+
+  it("korrigiert Datumseingaben automatisch", () => {
+    expect(normalisiereDatum("231026")).toBe("23.10.2026");
+    expect(normalisiereDatum("23102026")).toBe("23.10.2026");
+    expect(normalisiereDatum("23.10.26")).toBe("23.10.2026");
+    expect(normalisiereDatum("1.2.2026")).toBe("01.02.2026");
+    expect(normalisiereDatum("23-10-2026")).toBe("23.10.2026");
+    expect(normalisiereDatum(" 23/10/2026 ")).toBe("23.10.2026");
+    expect(normalisiereDatum("150885", true)).toBe("15.08.1985");
+    expect(normalisiereDatum("010199", true)).toBe("01.01.1999");
+    expect(normalisiereDatum("010105", true)).toBe("01.01.2005");
+  });
+
+  it("lässt unklare Datumseingaben unverändert", () => {
+    expect(normalisiereDatum("321026")).toBe("321026");
+    expect(normalisiereDatum("2310")).toBe("2310");
+    expect(normalisiereDatum("morgen")).toBe("morgen");
   });
 
   it("prüft IBAN mit Prüfziffer", () => {
