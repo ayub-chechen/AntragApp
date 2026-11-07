@@ -14,7 +14,7 @@ const TINTE = rgb(0.086, 0.196, 0.239);
 const GRAU = rgb(0.33, 0.38, 0.4);
 
 /** Bricht Text so um, dass er in die Breite passt. */
-function umbrechen(text: string, font: PDFFont, groesse: number, breite: number): string[] {
+export function umbrechen(text: string, font: PDFFont, groesse: number, breite: number): string[] {
   const zeilen: string[] = [];
   for (const absatz of text.split("\n")) {
     let zeile = "";
@@ -44,8 +44,8 @@ export async function erzeugePdf(antrag: Antrag, werte: Werte, schriften: Schrif
 
   doc.setTitle(`Ausfüllhilfe: ${antrag.titel}`);
   doc.setLanguage("de-DE");
-  doc.setCreator("Antragshilfe Berlin");
-  doc.setProducer("Antragshilfe Berlin");
+  doc.setCreator("Antragslotse Berlin");
+  doc.setProducer("Antragslotse Berlin");
   doc.setCreationDate(erstellt);
   doc.setModificationDate(erstellt);
 
@@ -73,7 +73,7 @@ export async function erzeugePdf(antrag: Antrag, werte: Werte, schriften: Schrif
   text(antrag.titel, fett, 22);
   y -= 2;
   text(
-    `Erstellt am ${erstellt.toLocaleDateString("de-DE")} mit der Antragshilfe Berlin. ` +
+    `Erstellt am ${erstellt.toLocaleDateString("de-DE")} mit dem Antragslotsen Berlin. ` +
       "Übertragen Sie diese Angaben in das amtliche Formular oder nutzen Sie sie für die Online-Anmeldung.",
     normal,
     10,

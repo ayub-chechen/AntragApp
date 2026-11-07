@@ -117,7 +117,17 @@ a:hover {
 .kopf {
   background: var(--tinte);
   color: #fff;
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1rem;
+  padding-top: max(0.6rem, env(safe-area-inset-top));
+}
+
+.kopf-innen {
+  max-width: 46rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .marke {
@@ -128,19 +138,128 @@ a:hover {
   font-weight: 700;
   font-size: 1.0625rem;
   text-decoration: none;
-  max-width: 46rem;
+  min-height: 2.75rem;
 }
 
-.kopf .marke {
-  margin: 0 auto;
-}
-
-.marke svg {
-  color: #2d5463;
-}
-
-.marke:focus-visible {
+.marke:focus-visible,
+.sprachen button:focus-visible {
   outline-color: var(--signal);
+}
+
+.sprachen {
+  display: flex;
+  border: 2px solid #5c7a85;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.sprachen button {
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #fff;
+  background: none;
+  border: 0;
+  min-width: 2.75rem;
+  min-height: 2.5rem;
+  padding: 0 0.6rem;
+  cursor: pointer;
+}
+
+.sprachen button + button {
+  border-left: 1px solid #5c7a85;
+}
+
+.sprachen button[aria-pressed="true"] {
+  background: var(--signal);
+  color: var(--tinte);
+}
+
+/* Navigation: oben auf großen Bildschirmen, unten wie eine App auf dem Handy */
+
+.leiste {
+  background: var(--flaeche);
+  border-bottom: 1px solid var(--rand);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.leiste ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+  max-width: 46rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leiste li {
+  flex: 1;
+  max-width: none;
+}
+
+.leiste a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.5rem 0.25rem 0.45rem;
+  min-height: 3.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--tinte-weich);
+  text-decoration: none;
+  border-bottom: 4px solid transparent;
+}
+
+.leiste a[aria-current="page"] {
+  color: var(--tinte);
+  border-bottom-color: var(--signal-tief);
+}
+
+.leiste a:hover {
+  color: var(--tinte);
+}
+
+.zaehler {
+  position: absolute;
+  top: 0.25rem;
+  left: calc(50% + 0.5rem);
+  min-width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: var(--fehler);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  text-align: center;
+  padding: 0 0.3rem;
+}
+
+@media (max-width: 40rem) {
+  .leiste {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 0;
+    border-top: 1px solid var(--rand);
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -2px 12px rgb(22 50 61 / 0.08);
+  }
+  .leiste a {
+    border-bottom: 0;
+    border-top: 4px solid transparent;
+  }
+  .leiste a[aria-current="page"] {
+    border-top-color: var(--signal-tief);
+  }
+  body {
+    padding-bottom: calc(4.25rem + env(safe-area-inset-bottom));
+  }
 }
 
 .fuss {
@@ -157,6 +276,12 @@ a:hover {
 
 .fuss a {
   color: var(--tinte);
+}
+
+.fuss-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
 }
 
 .seite {
@@ -422,6 +547,8 @@ form {
 }
 
 input[type="text"],
+input[type="password"],
+textarea,
 select {
   display: block;
   width: 100%;
@@ -445,6 +572,8 @@ input.mittel {
 }
 
 input[type="text"]:focus-visible,
+input[type="password"]:focus-visible,
+textarea:focus-visible,
 select:focus-visible {
   border-color: var(--tinte);
   outline-offset: 0;
@@ -667,5 +796,826 @@ select:focus-visible {
   }
   .knopf:active {
     transform: none;
+  }
+}
+
+/* ---------- Antragslotse: neue Bausteine ---------- */
+
+textarea {
+  max-width: 40rem;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+input.mittel-breit {
+  max-width: 18rem;
+}
+
+input[type="file"] {
+  font: inherit;
+  max-width: 100%;
+}
+
+.block {
+  margin-top: 2.5rem;
+}
+
+.klein {
+  font-size: 0.9375rem;
+  color: var(--tinte-weich);
+}
+
+.klein-hinweis {
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--tinte-weich);
+}
+
+.status-zeile {
+  min-height: 1.5em;
+  font-weight: 700;
+}
+
+.erfolg {
+  border-left: 4px solid #2f7d4a;
+  background: #e7f3eb;
+  padding: 0.75rem 1rem;
+}
+
+.fehler-text {
+  color: var(--fehler);
+  font-weight: 700;
+}
+
+.unterblock {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid #d5dcdb;
+}
+
+/* Knöpfe in klein und mittel */
+
+.knopf-klein {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 2px solid var(--tinte);
+  background: var(--flaeche);
+  color: var(--tinte);
+  cursor: pointer;
+}
+
+.knopf-klein:hover {
+  background: var(--hinweis-grund);
+}
+
+.knopf-klein[aria-pressed="true"] {
+  background: var(--signal);
+}
+
+.knopf-klein:disabled {
+  cursor: default;
+  border-color: var(--rand);
+  color: var(--tinte-weich);
+}
+
+a.knopf-zweit,
+a.knopf {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.knopf-mittel {
+  font-size: 1rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 1.1rem;
+}
+
+.knopf-zweit[aria-pressed="true"] {
+  background: var(--signal);
+}
+
+.werkzeugleiste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.aktionen-oben {
+  margin-top: 0;
+}
+
+.extern::after {
+  content: " ↗";
+}
+
+/* Start */
+
+.karten,
+.kacheln,
+.fristliste,
+.neu-liste,
+.ergebnisse,
+.terminliste,
+.dokumente,
+.stellen,
+.kinderliste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.karten {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.karte {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  background: var(--flaeche);
+  border-left: 6px solid var(--signal);
+  text-decoration: none;
+}
+
+.karte:hover {
+  box-shadow: inset 0 0 0 2px var(--tinte);
+}
+
+.karte-titel {
+  font-weight: 700;
+  font-size: 1.1875rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.karte-text {
+  color: var(--tinte-weich);
+}
+
+.fortschritt {
+  display: block;
+  height: 8px;
+  background: #d5dcdb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fortschritt span {
+  display: block;
+  height: 100%;
+  background: var(--tinte);
+}
+
+.fristliste li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0 0.7rem 0.9rem;
+  border-left: 4px solid var(--rand);
+  margin-bottom: 0.5rem;
+  background: var(--flaeche);
+  max-width: none;
+}
+
+.frist-gelb {
+  border-left-color: var(--signal-tief) !important;
+}
+
+.frist-rot {
+  border-left-color: var(--fehler) !important;
+}
+
+.frist-datum {
+  font-weight: 700;
+}
+
+.relativ {
+  font-weight: 400;
+  color: var(--tinte-weich);
+}
+
+.kacheln {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: 0.75rem;
+}
+
+.kachel {
+  display: grid;
+  gap: 0.25rem;
+  height: 100%;
+  padding: 1rem;
+  background: var(--tinte);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.kachel:hover {
+  background: #22475a;
+}
+
+.kachel:focus-visible {
+  outline-color: var(--fokus);
+}
+
+.kachel-titel {
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-decoration: underline;
+  text-decoration-color: var(--signal);
+  text-underline-offset: 0.2em;
+}
+
+.kachel-text {
+  color: #d9e4e7;
+  font-size: 0.9375rem;
+}
+
+.neu-liste li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #d5dcdb;
+  max-width: none;
+}
+
+.neu-liste.gross li {
+  padding: 1.25rem 0;
+}
+
+.neu-liste.gross h2 {
+  font-size: 1.25rem;
+  margin: 0.25rem 0;
+}
+
+.neu-liste .fuer-sie {
+  border-left: 5px solid var(--signal-tief);
+  padding-left: 0.9rem;
+}
+
+/* Fahrplan als Linie mit Haltestellen */
+
+.plan-kopf {
+  margin: 1.25rem 0 0.5rem;
+}
+
+.plan-kopf h2 {
+  margin-bottom: 0.25rem;
+}
+
+.plan-kopf h2:focus {
+  outline: none;
+}
+
+.fahrplan {
+  list-style: none;
+  margin: 1rem 0 2rem;
+  padding: 0;
+}
+
+.halt {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  max-width: none;
+}
+
+.halt::before {
+  content: "";
+  position: absolute;
+  left: calc(1.125rem - 3px);
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--tinte);
+}
+
+.halt:first-child::before {
+  top: 1.4rem;
+}
+
+.halt:last-child::before {
+  bottom: auto;
+  height: 1.4rem;
+}
+
+.halt-punkt {
+  position: relative;
+  z-index: 1;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.65rem 0 0 0.375rem;
+  border-radius: 50%;
+  background: var(--flaeche);
+  border: 4px solid var(--tinte);
+}
+
+.halt-bald .halt-punkt {
+  background: var(--signal);
+}
+
+.halt-ueberfaellig .halt-punkt {
+  background: var(--fehler);
+  border-color: var(--fehler);
+}
+
+.halt-erledigt .halt-punkt {
+  background: var(--tinte);
+}
+
+.halt-inhalt {
+  background: var(--flaeche);
+  margin: 0 0 1rem 0.5rem;
+  padding: 0.9rem 1.1rem 1rem;
+  min-width: 0;
+}
+
+.halt-erledigt .halt-inhalt {
+  background: #e6ebea;
+}
+
+.halt-erledigt .halt-inhalt h3 {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.halt-inhalt h3 {
+  font-size: 1.1875rem;
+  margin-bottom: 0.25rem;
+}
+
+.halt-inhalt p {
+  margin: 0.4rem 0;
+}
+
+.halt-frist {
+  font-weight: 700;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.6rem;
+}
+
+.marke-bald,
+.marke-ueberfaellig {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--signal);
+  color: var(--tinte);
+  margin-left: 0.4rem;
+}
+
+.marke-ueberfaellig {
+  background: var(--fehler);
+  color: #fff;
+}
+
+.geld {
+  background: #eef5f1;
+  padding: 0.35rem 0.6rem;
+  border-left: 4px solid #2f7d4a;
+}
+
+.tipp {
+  font-size: 0.9375rem;
+  color: var(--tinte-weich);
+}
+
+.unterlagen {
+  margin: 0.5rem 0;
+}
+
+.unterlagen .da {
+  color: var(--tinte-weich);
+}
+
+.im-ordner {
+  color: #2f7d4a;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.halt-aktionen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.haken-knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: inherit;
+  font-weight: 700;
+  min-height: 2.75rem;
+  padding: 0.3rem 0.9rem 0.3rem 0.4rem;
+  background: none;
+  border: 2px solid var(--rand);
+  border-radius: 999px;
+  color: var(--tinte);
+  cursor: pointer;
+}
+
+.haken-knopf:hover {
+  border-color: var(--tinte);
+}
+
+.haken-feld {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2px solid var(--tinte);
+  background: var(--flaeche);
+  font-size: 1rem;
+}
+
+.haken-knopf.an {
+  border-color: var(--tinte);
+}
+
+.haken-knopf.an .haken-feld {
+  background: var(--tinte);
+  color: #fff;
+}
+
+/* Fragen */
+
+.fragen-gruppe {
+  margin-bottom: 1.5rem;
+}
+
+.fragen-gruppe + .fragen-gruppe {
+  padding-top: 1.25rem;
+  border-top: 2px solid #d5dcdb;
+}
+
+.fragen-gruppe h2 {
+  font-size: 1.25rem;
+}
+
+.radios-zeile {
+  grid-template-columns: repeat(2, minmax(0, 9rem));
+}
+
+.radios-raster {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+}
+
+.radios-raster .radio {
+  max-width: none;
+}
+
+.zeile-felder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0 1.25rem;
+}
+
+/* Check */
+
+.stufe {
+  margin-top: 1.5rem;
+}
+
+.stufe > h3 {
+  font-size: 1.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 3px solid var(--tinte);
+}
+
+.stufe-wahrscheinlich > h3 {
+  border-bottom-color: #2f7d4a;
+}
+
+.stufe-pruefen > h3 {
+  border-bottom-color: var(--signal-tief);
+}
+
+.ergebnis {
+  background: var(--flaeche);
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.75rem;
+  max-width: none;
+}
+
+.ergebnis h4 {
+  font-size: 1.1875rem;
+  margin: 0 0 0.25rem;
+}
+
+.ergebnis p {
+  margin: 0.4rem 0;
+}
+
+.betrag {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.betrag span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--tinte-weich);
+}
+
+/* Termine */
+
+.termin-gruppe h2 {
+  font-size: 1.1875rem;
+  margin-top: 1.75rem;
+}
+
+.termin {
+  background: var(--flaeche);
+  border-left: 5px solid var(--rand);
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem;
+  max-width: none;
+}
+
+.termin-datum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.35rem;
+}
+
+.termin-art {
+  flex-basis: 100%;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--tinte-weich);
+}
+
+.termin-titel {
+  font-size: 1.0625rem;
+  margin-top: 0.15rem;
+}
+
+.eigener-termin {
+  margin-top: 2.5rem;
+}
+
+/* Mein Bereich */
+
+.reiter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 1.5rem 0 1.25rem;
+  border-bottom: 3px solid var(--tinte);
+}
+
+.reiter a {
+  padding: 0.6rem 1rem;
+  min-height: 2.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--tinte-weich);
+  border-radius: 6px 6px 0 0;
+}
+
+.reiter a[aria-current="page"] {
+  background: var(--tinte);
+  color: #fff;
+}
+
+.reiter a:hover {
+  text-decoration: underline;
+}
+
+.tresor {
+  margin-bottom: 1.5rem;
+}
+
+.vergessen {
+  margin: 1.5rem 0;
+}
+
+.vergessen summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 2.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.dokument,
+.kinderliste li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  background: var(--flaeche);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  max-width: none;
+}
+
+.dokument .halt-aktionen {
+  margin-top: 0;
+}
+
+/* Brief */
+
+.brief-ergebnis {
+  margin-top: 2rem;
+}
+
+.eckdaten,
+.glossar {
+  margin: 0 0 1.5rem;
+}
+
+.eckdaten > div,
+.glossar > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) 2.5fr;
+  gap: 0.25rem 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #d5dcdb;
+}
+
+.eckdaten dt,
+.glossar dt {
+  font-weight: 700;
+}
+
+.eckdaten dd,
+.glossar dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 30rem) {
+  .eckdaten > div,
+  .glossar > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+.brief-art {
+  background: var(--flaeche);
+  border-top: 5px solid var(--signal);
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.brief-art h4 {
+  margin: 0.75rem 0 0.25rem;
+}
+
+.zitat {
+  font-style: italic;
+  border-left: 3px solid #d5dcdb;
+  padding-left: 0.6rem;
+}
+
+.entwurf {
+  margin-top: 1rem;
+}
+
+.entwurf input[type="text"] {
+  max-width: 40rem;
+}
+
+/* Umzug */
+
+.stelle {
+  border: 2px solid #d5dcdb;
+  padding: 0.75rem 1rem 1rem;
+  margin: 0 0 1rem;
+}
+
+.stelle legend {
+  font-weight: 700;
+  padding: 0 0.3rem;
+}
+
+/* Hilfe, Organisationen, Anleitung */
+
+.stellen {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stelle-karte {
+  background: var(--flaeche);
+  padding: 1rem 1.1rem;
+  max-width: none;
+}
+
+.stelle-karte h2 {
+  font-size: 1.1875rem;
+  margin-bottom: 0.25rem;
+}
+
+.stelle-karte p {
+  margin: 0.35rem 0;
+}
+
+.krise {
+  margin-top: 2rem;
+  padding: 1rem 1.1rem;
+  background: var(--tinte);
+  color: #fff;
+}
+
+.krise h2 {
+  font-size: 1.1875rem;
+}
+
+.anleitung {
+  counter-reset: schritt;
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.anleitung li {
+  counter-increment: schritt;
+  position: relative;
+  padding: 0 0 1.25rem 3.25rem;
+  max-width: none;
+}
+
+.anleitung li::before {
+  content: counter(schritt);
+  position: absolute;
+  left: 0;
+  top: -0.1rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--signal);
+  border: 3px solid var(--tinte);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.anleitung li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(1.125rem - 2px);
+  top: 2.3rem;
+  bottom: 0.2rem;
+  width: 4px;
+  background: var(--tinte);
+}
+
+.anleitung h2 {
+  font-size: 1.1875rem;
+  margin-bottom: 0.2rem;
+}
+
+.anleitung p {
+  margin: 0 0 0.3rem;
+}
+
+/* Drucken: nur der Inhalt, ohne Navigation */
+
+@media print {
+  .kopf,
+  .leiste,
+  .fuss,
+  .werkzeugleiste,
+  .halt-aktionen,
+  .loeschen,
+  .skip {
+    display: none !important;
+  }
+  body {
+    padding: 0;
+    background: #fff;
+  }
+  html {
+    background: #fff;
+  }
+  .halt-inhalt {
+    border: 1px solid #999;
+  }
+  .halt {
+    break-inside: avoid;
   }
 }

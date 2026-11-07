@@ -9,7 +9,7 @@ async function keineA11yFehler(page: Page) {
 test("Startseite zeigt Lebenslagen und ist barrierefrei", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Was steht bei Ihnen an?");
-  await expect(page.getByRole("link", { name: /Umzug/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Neu in Berlin|Umzug/ }).first()).toBeVisible();
   await keineA11yFehler(page);
 });
 
@@ -30,7 +30,7 @@ test("Fehler werden verständlich angezeigt", async ({ page }) => {
 
 test("Wohnsitzanmeldung ausfüllen und PDF herunterladen", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: /Umzug/ }).click();
+  await page.getByRole("link", { name: /^Wohnung anmelden/ }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anmeldung einer Wohnung");
 
   // Erfundene Testperson

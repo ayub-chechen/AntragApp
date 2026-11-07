@@ -2,7 +2,12 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "tests/e2e",
-  use: { baseURL: "http://localhost:4173", locale: "de-DE" },
+  use: {
+    baseURL: "http://localhost:4173",
+    locale: "de-DE",
+    // Optional: eigenes Chromium verwenden (z. B. PW_CHROMIUM=/opt/pw-browsers/chromium).
+    launchOptions: process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {},
+  },
   webServer: {
     command: "npm run build && npm run preview",
     url: "http://localhost:4173",

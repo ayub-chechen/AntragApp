@@ -3,13 +3,27 @@ import type { Antrag, Werte } from "../antraege/typen";
 import { FeldEingabe } from "../components/FeldEingabe";
 import { Linie } from "../components/Linie";
 import { Uebergabe } from "../components/Uebergabe";
+import { ui } from "../i18n/ui";
+import { useSprache } from "../i18n/sprache";
+import { profilZuAntrag } from "../inhalte/profil";
 import { zusammenfassung } from "../lib/anzeige";
+import { useDaten } from "../lib/daten";
 import { link } from "../lib/router";
 import { fristHinweis, istSichtbar, normalisiere, pruefeFeld, pruefeSchritt } from "../lib/validierung";
 
+/** Übernimmt passende Angaben aus dem Profil in das Formular. */
+function ausProfil(antrag: Antrag, profil: Record<string, string>): Werte {
+  const w: Werte = {};
+  for (const f of antrag.felder) if (f.profil && profil[f.profil]) w[f.name] = profil[f.profil];
+  return w;
+}
+
 export function AntragSeite({ antrag }: { antrag: Antrag }) {
-  // Angaben nur im Arbeitsspeicher, siehe docs/datenschutz-check.md
-  const [werte, setWerte] = useState<Werte>({});
+  const { t, sprache } = useSprache();
+  const { daten, aendere, status } = useDaten();
+  // Formularwerte nur im Arbeitsspeicher; vorausgefüllt aus dem (verschlüsselten) Profil.
+  const [werte, setWerte] = useState<Werte>(() => ausProfil(antrag, daten.profil));
+  const [profilGespeichert, setProfilGespeichert] = useState(false);
   const [fehler, setFehler] = useState<Record<string, string>>({});
   const [schritt, setSchritt] = useState(0);
   const [pdfStatus, setPdfStatus] = useState<"bereit" | "laeuft" | "fertig" | "fehler">("bereit");
@@ -83,6 +97,20 @@ export function AntragSeite({ antrag }: { antrag: Antrag }) {
     setSchritt(i);
   };
 
+  const insProfil = () => {
+    const neu: Record<string, string> = {};
+    for (const [schluessel, feld] of Object.entries(profilZuAntrag)) if (werte[feld]) neu[schluessel] = werte[feld];
+    if (werte.neu_strasse) neu["adresse.strasse"] = werte.neu_strasse;
+    if (werte.neu_hausnummer) neu["adresse.hausnummer"] = werte.neu_hausnummer;
+    if (werte.neu_zusatz) neu["adresse.zusatz"] = werte.neu_zusatz;
+    if (werte.neu_plz) {
+      neu["adresse.plz"] = werte.neu_plz;
+      neu["adresse.ort"] = "Berlin";
+    }
+    aendere((d) => ({ ...d, profil: { ...d.profil, ...neu } }));
+    setProfilGespeichert(true);
+  };
+
   const loeschen = () => {
     setWerte({});
     setFehler({});
@@ -114,12 +142,13 @@ export function AntragSeite({ antrag }: { antrag: Antrag }) {
   const hinweis = (name: string) => (name === "einzugsdatum" && !fehler[name] ? fristHinweis(werte[name] ?? "") : null);
 
   return (
-    <section className="seite antrag">
-      <p className="zurueck">
-        <a href={link("/")}>Alle Lebenslagen</a>
+    <section className="seite antrag" lang="de">
+      <p className="zurueck" lang={sprache}>
+        <a href={link("/lage/neu")}>{t({ de: "Zum Fahrplan „Umzug“", en: "Back to the moving roadmap", ru: "К плану переезда" })}</a>
       </p>
       <h1 tabIndex={-1}>{antrag.titel}</h1>
       <p className="einleitung">{antrag.kurz}</p>
+      {ui.formularDeutsch[sprache] && <p className="hinweis" lang={sprache}>{t(ui.formularDeutsch)}</p>}
       {!antrag.stand_geprueft && (
         <p className="hinweis">
           Die Angaben in dieser Ausfüllhilfe sind noch nicht mit dem aktuellen amtlichen Formular
@@ -210,13 +239,31 @@ export function AntragSeite({ antrag }: { antrag: Antrag }) {
               {pdfStatus === "fertig" && "PDF heruntergeladen. Sie finden es in Ihrem Download-Ordner."}
               {pdfStatus === "fehler" && "Das PDF konnte nicht erstellt werden. Bitte laden Sie die Seite neu und versuchen Sie es noch einmal."}
             </p>
+            <div className="unterblock" lang={sprache}>
+              <button type="button" className="knopf-zweit" onClick={insProfil} disabled={profilGespeichert}>
+                {profilGespeichert
+                  ? t({ de: "Im Profil gespeichert", en: "Saved to profile", ru: "Сохранено в профиле" })
+                  : t({ de: "Angaben in mein Profil übernehmen", en: "Save details to my profile", ru: "Сохранить данные в профиль" })}
+              </button>
+              <p className="hilfe">
+                {t({
+                  de: "Dann sind sie beim nächsten Formular und für Briefe schon ausgefüllt.",
+                  en: "Then they are already filled in for the next form and for letters.",
+                  ru: "Тогда в следующем бланке и в письмах они будут уже заполнены.",
+                })}
+              </p>
+            </div>
             <Uebergabe antrag={antrag} />
           </>
         )}
       </div>
 
       <div className="loeschen">
-        <p>Ihre Angaben bleiben nur in diesem Fenster und werden nirgends gespeichert.</p>
+        <p>
+          {status === "offen"
+            ? "Die Formularangaben bleiben nur in diesem Fenster. Ihr Profil liegt verschlüsselt auf diesem Gerät."
+            : "Ihre Angaben bleiben nur in diesem Fenster und werden nirgends gespeichert."}
+        </p>
         <button type="button" className="knopf-leise" onClick={loeschen}>
           Alle Angaben löschen
         </button>

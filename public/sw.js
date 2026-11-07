@@ -1,8 +1,9 @@
-// Offline-Cache nur für die App-Dateien. Formulardaten werden nie gecacht oder gesendet.
-const CACHE = "antragshilfe-v1";
+// Offline-Cache nur für die App-Dateien. Ihre Angaben werden nie gecacht oder gesendet,
+// sie liegen verschlüsselt in IndexedDB (siehe src/lib/tresor.ts).
+const CACHE = "antragslotse-v2";
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((c) => c.addAll(["./", "./index.html", "./manifest.webmanifest", "./icon.svg"])));
+  event.waitUntil(caches.open(CACHE).then((c) => c.addAll(["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png"])));
   self.skipWaiting();
 });
 

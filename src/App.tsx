@@ -1,12 +1,58 @@
 import { useEffect, useRef } from "react";
 import { findeAntrag } from "./antraege";
+import { Fuss, Kopf, Navigation } from "./components/Rahmen";
+import { ui } from "./i18n/ui";
+import { useSprache } from "./i18n/sprache";
+import { findeLage } from "./inhalte/lebenslagen";
 import { link, useHashPfad } from "./lib/router";
+import { Anleitung } from "./pages/Anleitung";
 import { AntragSeite } from "./pages/AntragSeite";
+import { BriefSeite } from "./pages/BriefSeite";
+import { CheckSeite } from "./pages/CheckSeite";
 import { Datenschutz } from "./pages/Datenschutz";
+import { Hilfe } from "./pages/Hilfe";
+import { LageSeite } from "./pages/LageSeite";
+import { Mehr } from "./pages/Mehr";
+import { MeinBereich } from "./pages/MeinBereich";
+import { Neuigkeiten } from "./pages/Neuigkeiten";
+import { Organisationen } from "./pages/Organisationen";
 import { Start } from "./pages/Start";
+import { TermineSeite } from "./pages/TermineSeite";
+import { UmzugMelden } from "./pages/UmzugMelden";
+
+function Seite({ pfad }: { pfad: string }) {
+  const { t } = useSprache();
+  const antragId = /^\/antrag\/([\w-]+)$/.exec(pfad)?.[1];
+  const lageId = /^\/lage\/([\w-]+)$/.exec(pfad)?.[1];
+  const mein = /^\/mein(?:\/(\w+))?$/.exec(pfad);
+
+  if (pfad === "/") return <Start />;
+  if (lageId && findeLage(lageId)) return <LageSeite key={lageId} lage={findeLage(lageId)!} />;
+  if (antragId && findeAntrag(antragId)) return <AntragSeite key={antragId} antrag={findeAntrag(antragId)!} />;
+  if (pfad === "/check") return <CheckSeite />;
+  if (pfad === "/termine") return <TermineSeite />;
+  if (mein) return <MeinBereich bereich={mein[1] ?? "profil"} />;
+  if (pfad === "/brief") return <BriefSeite />;
+  if (pfad === "/umzug-melden") return <UmzugMelden />;
+  if (pfad === "/hilfe") return <Hilfe />;
+  if (pfad === "/neuigkeiten") return <Neuigkeiten />;
+  if (pfad === "/anleitung") return <Anleitung />;
+  if (pfad === "/organisationen") return <Organisationen />;
+  if (pfad === "/mehr") return <Mehr />;
+  if (pfad === "/datenschutz") return <Datenschutz />;
+  return (
+    <section className="seite">
+      <h1 tabIndex={-1}>{t({ de: "Diese Seite gibt es nicht", en: "This page does not exist", ru: "Такой страницы нет" })}</h1>
+      <p>
+        <a href={link("/")}>{t(ui.navStart)}</a>
+      </p>
+    </section>
+  );
+}
 
 export function App() {
   const pfad = useHashPfad();
+  const { t } = useSprache();
   const main = useRef<HTMLElement>(null);
   const ersterAufruf = useRef(true);
 
@@ -19,48 +65,17 @@ export function App() {
     main.current?.querySelector<HTMLElement>("h1")?.focus();
   }, [pfad]);
 
-  let seite;
-  const antragId = /^\/antrag\/([\w-]+)$/.exec(pfad)?.[1];
-  if (pfad === "/") seite = <Start />;
-  else if (pfad === "/datenschutz") seite = <Datenschutz />;
-  else if (antragId && findeAntrag(antragId)) seite = <AntragSeite key={antragId} antrag={findeAntrag(antragId)!} />;
-  else
-    seite = (
-      <section className="seite">
-        <h1 tabIndex={-1}>Diese Seite gibt es nicht</h1>
-        <p>
-          <a href={link("/")}>Zur Startseite</a>
-        </p>
-      </section>
-    );
-
   return (
     <>
       <a className="skip" href="#inhalt">
-        Zum Inhalt springen
+        {t(ui.zumInhalt)}
       </a>
-      <header className="kopf">
-        <a className="marke" href={link("/")}>
-          <svg aria-hidden="true" viewBox="0 0 64 64" width="28" height="28">
-            <rect width="64" height="64" rx="14" fill="currentColor" />
-            <rect x="16" y="12" width="32" height="40" rx="3" fill="#fff" />
-            <circle cx="44" cy="46" r="9" fill="#ffd400" />
-          </svg>
-          Antragshilfe Berlin
-        </a>
-      </header>
+      <Kopf />
+      <Navigation pfad={pfad} />
       <main id="inhalt" ref={main}>
-        {seite}
+        <Seite pfad={pfad} />
       </main>
-      <footer className="fuss">
-        <p>
-          Die Antragshilfe ist kein Angebot des Landes Berlin. Sie hilft beim Ausfüllen. Einreichen
-          können Sie nur beim Amt oder auf service.berlin.de.
-        </p>
-        <p>
-          <a href={link("/datenschutz")}>Datenschutz</a>
-        </p>
-      </footer>
+      <Fuss />
     </>
   );
 }
